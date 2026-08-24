@@ -23,12 +23,12 @@ npm test
 npm run build
 ```
 
-`npm run dev` starts a local static server on `http://localhost:5173`. The static production bundle is written to `dist/`.
+`npm run dev` starts a local static server on `http://localhost:5173`. The static production bundle is generated into the ignored `dist/` directory.
 
 ## Deployment to GitHub Pages
 
 1. In GitHub, set **Pages** source to **GitHub Actions**.
-2. Push to `main`; the supplied workflow builds and deploys `dist/`.
+2. Push to `main`; the supplied workflow builds a fresh `dist/` artifact and deploys it.
 3. The workflow derives the canonical GitHub Pages URL from the repository owner/name; use `SITE_URL` only when deploying to a custom domain.
 
 The production build emits a static `index.html` for every important route, so direct tool URLs work on GitHub Pages and can be crawled without server rewrites.

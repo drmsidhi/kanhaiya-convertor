@@ -1,0 +1,5 @@
+# Generated static deployment artifact
+/dist/
+
+# Local Node output
+/node_modules/
