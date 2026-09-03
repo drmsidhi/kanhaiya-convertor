@@ -2,11 +2,13 @@ import { cp, rm, mkdir, readFile, writeFile } from 'node:fs/promises';
 const owner = process.env.GITHUB_REPOSITORY_OWNER || process.env.SITE_OWNER || 'kanhaiya-convertor';
 const repository = process.env.GITHUB_REPOSITORY?.split('/')[1] || process.env.SITE_REPOSITORY || 'kanhaiya-convertor';
 const siteUrl = process.env.SITE_URL || `https://${owner}.github.io/${repository}/`;
-const routes = ['', 'tools', 'photo-resizer', 'photo-compressor', 'photo-cropper', 'passport-photo-maker', 'pan-photo-resizer', 'aadhaar-photo-resizer', 'visa-photo-maker', 'signature-resizer', 'signature-compressor', 'pan-signature-resizer', 'jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'image-resize', 'image-compressor', 'jpg-to-pdf', 'image-to-pdf', 'document-image-compressor', 'about', 'privacy', 'terms', 'contact', 'disclaimer'];
+const routes = ['', 'tools', 'photo-resizer', 'photo-compressor', 'photo-cropper', 'passport-photo-maker', 'pan-photo-resizer', 'aadhaar-photo-resizer', 'visa-photo-maker', 'signature-resizer', 'signature-compressor', 'pan-signature-resizer', 'jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'image-resize', 'image-compressor', 'jpg-to-pdf', 'image-to-pdf', 'document-image-compressor', 'merge-pdf', 'split-pdf', 'about', 'privacy', 'terms', 'contact', 'disclaimer'];
 await rm('dist', { recursive: true, force: true }); await mkdir('dist');
 await cp('src', 'dist/src', { recursive: true }); await cp('config', 'dist/config', { recursive: true }); await cp('presets', 'dist/presets', { recursive: true }); await cp('public', 'dist', { recursive: true });
+await mkdir('dist/vendor', { recursive: true }); await cp('node_modules/pdf-lib/dist/pdf-lib.min.js', 'dist/vendor/pdf-lib.min.js');
+await cp('node_modules/pdfjs-dist/legacy/build/pdf.min.mjs', 'dist/vendor/pdf.min.mjs');
 const template = await readFile('index.html', 'utf8');
-const titles = { 'photo-resizer':'Photo Resizer', 'photo-compressor':'Photo Compressor', 'signature-resizer':'Signature Resizer', 'jpg-to-pdf':'JPG to PDF' };
+const titles = { 'photo-resizer':'Photo Resizer', 'photo-compressor':'Photo Compressor', 'signature-resizer':'Signature Resizer', 'jpg-to-pdf':'JPG to PDF', 'merge-pdf':'Merge PDF', 'split-pdf':'Split PDF' };
 for (const route of routes) {
   const path = route ? `dist/${route}` : 'dist'; await mkdir(path, { recursive: true });
   const url = `${siteUrl}${route ? `${route}/` : ''}`;
